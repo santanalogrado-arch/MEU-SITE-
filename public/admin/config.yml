@@ -3,13 +3,13 @@ backend:
   repo: santanalogrado-arch/MEU-SITE-
   branch: main
 
-media_folder: "uploads"
+media_folder: "public/uploads"
 public_folder: "/uploads"
 
 collections:
   - name: "paginas"
     label: "Páginas"
-    folder: "paginas"
+    folder: "public/paginas"
     create: true
     slug: "{{slug}}"
     fields:
