@@ -1,5 +1,6 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: santanalogrado-arch/MEU-SITE-
   branch: main
 
 media_folder: "uploads"
