@@ -6,6 +6,37 @@
   <title>Painel de Controle</title>
 </head>
 <body>
+  <script>
+    // Linha mágica: diz ao painel para ler o config.yml que está nesta mesma pasta
+    window.CMS_MANUAL_INIT = true;
+  </script>
   <script src="https://unpkg.com/decap-cms@3.4.0/dist/decap-cms.js"></script>
+  <script>
+    // Inicializa o painel apontando diretamente para o arquivo correto
+    initCMS({
+      config: {
+        backend: {
+          name: "github",
+          repo: "santanalogrado-arch/MEU-SITE-",
+          branch: "main"
+        },
+        media_folder: "uploads",
+        public_folder: "/uploads",
+        collections: [
+          {
+            name: "paginas",
+            label: "Páginas",
+            folder: "paginas",
+            create: true,
+            slug: "{{slug}}",
+            fields: [
+              { label: "Título", name: "title", widget: "string" },
+              { label: "Conteúdo", name: "body", widget: "markdown" }
+            ]
+          }
+        ]
+      }
+    });
+  </script>
 </body>
 </html>
