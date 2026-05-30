@@ -1,1 +1,17 @@
+backend:
+  name: github
+  repo: santanalogrado-arch/MEU-SITE-
+  branch: main
 
+media_folder: "uploads"
+public_folder: "/uploads"
+
+collections:
+  - name: "paginas"
+    label: "Páginas"
+    folder: "paginas"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Título", name: "title", widget: "string" }
+      - { label: "Conteúdo", name: "body", widget: "markdown" }
