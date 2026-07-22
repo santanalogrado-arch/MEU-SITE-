@@ -1104,7 +1104,8 @@ document.getElementById('cookieSkip').addEventListener('click',()=>cookieBanner.
 function handleNewsletter(){
   const email=document.getElementById('nl-email').value;
   if(!email||!email.includes('@')){ alert('Digite um email válido 🌷'); return; }
-  alert('Obrigada! Em breve você vai receber o primeiro email do Calmi 🌷\n\n(Integre com Mailchimp ou ConvertKit para envios reais)');
+  const brevoUrl='https://9540084c.sibforms.com/serve/MUIFAA3bL8EOLKHvTxVLSMe918HK8UZ0BTBzixDcow0lfamqX7W2x-0dEV5ySH64HkocLdjlTCUukuOjKHKU7F0wqutNjqrdFXouEJ8ALotOAOgeK2ueHU7Ph52iyo1Z0mt1AQjPvmz6Y1FU0u613ChRIT4JAwQvxiq-EvNTxhkvYv96WDu71KMt1jt9QtG7X9A_nAzQuvh7UgmgYQ==';
+  window.open(brevoUrl+'?EMAIL='+encodeURIComponent(email), '_blank');
   document.getElementById('nl-email').value='';
 }
 
