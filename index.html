@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ESS253WXRY"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ESS253WXRY');
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Calmi — Saúde mental para quem cuida de todos. Autoconhecimento, autocuidado e comunidade para mulheres cuidadoras.">
@@ -112,7 +120,6 @@ h2 em { font-style:italic; }
 .pilar-chip { display:inline-block; margin-top:1.2rem; font-size:0.65rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--rose); border:0.5px solid rgba(212,83,126,0.3); padding:0.28rem 0.8rem; border-radius:100px; }
 
 /* CANAL */
-#canal .inner { max-width:1100px; margin:0 auto; display:grid; grid-template-columns:1fr 1.4fr; gap:5rem; align-items:center; }
 .canal-cards { display:flex; flex-direction:column; gap:1rem; }
 .canal-card { background:#fff; border:0.5px solid var(--border); border-radius:16px; padding:1.4rem 1.6rem; display:flex; gap:1.2rem; align-items:flex-start; transition:transform 0.3s; }
 .canal-card:hover { transform:translateX(6px); }
@@ -158,7 +165,6 @@ h2 em { font-style:italic; }
 .nl-fine { font-size:0.68rem; color:rgba(255,255,255,0.3); letter-spacing:0.06em; }
 
 /* SOCIAL */
-#social .inner { max-width:1100px; margin:0 auto; text-align:center; }
 .social-cards { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-top:3rem; }
 .social-card { background:#fff; border:0.5px solid var(--border); border-radius:20px; padding:2rem 1.4rem; text-align:center; transition:transform 0.3s, box-shadow 0.3s; }
 .social-card:hover { transform:translateY(-5px); box-shadow:0 14px 40px var(--shadow); }
@@ -290,7 +296,7 @@ footer { background:var(--wine-deep); padding:4rem 5vw 2rem; }
   #nav { padding:1.1rem 1.5rem; }
   .nav-links { display:none; }
   .hamburger { display:flex; }
-  #para-quem .inner,#canal .inner,#sobre .inner { grid-template-columns:1fr; gap:3rem; }
+  #para-quem .inner,#sobre .inner { grid-template-columns:1fr; gap:3rem; }
   .who-cards,.pilares-grid,.dep-grid { grid-template-columns:1fr; }
   .blog-grid { grid-template-columns:1fr 1fr; }
   .social-cards { grid-template-columns:1fr 1fr; }
@@ -312,7 +318,6 @@ footer { background:var(--wine-deep); padding:4rem 5vw 2rem; }
   <a href="#para-quem" onclick="closeMobileMenu()">Para quem</a>
   <a href="#pilares" onclick="closeMobileMenu()">Pilares</a>
   <a href="#blog" onclick="closeMobileMenu()">Blog</a>
-  <a href="#canal" onclick="closeMobileMenu()">Canal</a>
   <a href="#sobre" onclick="closeMobileMenu()">Sobre</a>
   <a href="#faq" onclick="closeMobileMenu()">FAQ</a>
 </div>
@@ -334,7 +339,6 @@ footer { background:var(--wine-deep); padding:4rem 5vw 2rem; }
     <li><a href="#para-quem">Para quem</a></li>
     <li><a href="#pilares">Pilares</a></li>
     <li><a href="#blog">Blog</a></li>
-    <li><a href="#canal">Canal</a></li>
     <li><a href="#sobre">Sobre</a></li>
     <li><a href="#faq">FAQ</a></li>
   </ul>
@@ -440,21 +444,7 @@ footer { background:var(--wine-deep); padding:4rem 5vw 2rem; }
 </section>
 
 <!-- CANAL -->
-<section id="canal">
-  <div class="inner">
-    <div class="reveal-l">
-      <div class="s-tag">Onde nos encontrar</div>
-      <h2>Conteúdo em<br><em>todo lugar</em></h2>
-      <p class="lead">Do YouTube ao Instagram, do TikTok à newsletter — o Calmi está onde você está.</p>
-    </div>
-    <div class="canal-cards reveal-r">
-      <div class="canal-card"><div class="canal-num">01</div><div><h3>Canal YouTube</h3><p>Vídeos semanais aprofundados sobre saúde mental, autocuidado e autoconhecimento.</p></div></div>
-      <div class="canal-card"><div class="canal-num">02</div><div><h3>Instagram</h3><p>Posts diários, ferramentas práticas e histórias reais. O lugar mais acolhedor do feed.</p></div></div>
-      <div class="canal-card"><div class="canal-num">03</div><div><h3>Comunidade TikTok</h3><p>Conteúdo leve, direto e honesto. Para quem está em trânsito e precisa de um respiro no meio do dia.</p></div></div>
-      <div class="canal-card"><div class="canal-num">04</div><div><h3>Livro: A Morte da Heroína</h3><p>O projeto literário do Calmi. Para quem está pronta para ser autora da própria história. Em breve.</p></div></div>
-    </div>
-  </div>
-</section>
+
 
 <!-- DEPOIMENTOS -->
 <section id="depoimentos">
@@ -523,20 +513,7 @@ footer { background:var(--wine-deep); padding:4rem 5vw 2rem; }
 </section>
 
 <!-- SOCIAL -->
-<section id="social">
-  <div class="inner">
-    <div class="reveal" style="text-align:center">
-      <div class="s-tag">Nos encontre onde você está</div>
-      <h2>Conteúdo em<br><em>todo lugar</em></h2>
-    </div>
-    <div class="social-cards">
-      <div class="social-card reveal"><div class="social-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D4537E" stroke-width="1.5" stroke-linecap="round"><path d="M22 4s-2.5 1.5-4 2C16.5 4.5 14.5 3 12 3a6 6 0 0 0-6 6c0 .6.1 1.2.2 1.8C3 10.6 1.5 9 1 8c0 0-.5 4 3 6-1 0-2-.5-2-.5s.5 3 4 4c-1 .5-2 .5-2 .5s1 2.5 5 3c-2 1.5-5 2-7 2 0 0 3.5 2 8 2 9 0 14-7.5 14-14v-.5c1-.7 1.8-1.5 2.5-2.5"/></svg></div><h3>Twitter / X</h3><p>Pensamentos rápidos, reflexões e conversas sobre saúde mental no dia a dia.</p><a href="#" class="social-link">Seguir →</a></div>
-      <div class="social-card reveal"><div class="social-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D4537E" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="#D4537E"/></svg></div><h3>Instagram</h3><p>Posts diários, ferramentas práticas e histórias reais. O lugar mais acolhedor do feed.</p><a href="#" class="social-link">Seguir →</a></div>
-      <div class="social-card reveal"><div class="social-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D4537E" stroke-width="1.5" stroke-linecap="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.96-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#D4537E" stroke="none"/></svg></div><h3>YouTube</h3><p>Vídeos semanais aprofundados sobre saúde mental, autocuidado e autoconhecimento.</p><a href="#" class="social-link">Inscrever →</a></div>
-      <div class="social-card reveal"><div class="social-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D4537E" stroke-width="1.5" stroke-linecap="round"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1-.3-3.3 1.3a11.5 11.5 0 0 0-6 0C6.3 2.8 5.3 3.1 5.3 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></div><h3>TikTok</h3><p>Conteúdo faceless, rápido e honesto. Para o momento em que você precisa de um respiro.</p><a href="#" class="social-link">Seguir →</a></div>
-    </div>
-  </div>
-</section>
+
 
 <!-- FAQ -->
 <section id="faq">
@@ -911,14 +888,14 @@ function parseBody(text) {
   return text
     .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
     .replace(/\*(.*?)\*/g,'<em>$1</em>')
-    .split(/\n\n+/)
+    .split(/\n+/)
     .map(b => {
       b = b.trim();
       if (!b) return '';
       if (/^## /.test(b)) return '<h2>' + b.slice(3) + '</h2>';
       if (/^### /.test(b)) return '<h3>' + b.slice(4) + '</h3>';
       if (b === '---') return '<hr class="article-divider">';
-      return '<p>' + b.replace(/\n/g,'<br>') + '</p>';
+      return '<p>' + b + '</p>';
     })
     .join('\n');
 }
