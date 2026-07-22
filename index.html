@@ -630,6 +630,26 @@ footer { background:var(--wine-deep); padding:4rem 5vw 2rem; }
       </div>
     </div>
 
+    <!-- TELA DE CONFIGURAÇÃO (só aparece 1 vez) -->
+    <div id="admin-setup-screen" style="display:none">
+      <div class="admin-login">
+        <h2>Última etapa: ligar o painel ao site de verdade</h2>
+        <p style="text-align:left;line-height:1.6">Pra seus artigos aparecerem pra todo mundo (e não só no seu navegador), o painel precisa de uma chave de acesso do GitHub. É gratuita, leva 2 minutos, e você só faz isso uma vez.</p>
+        <p style="text-align:left;font-size:0.85rem;margin-top:1rem">
+          1. Abra <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens/new</a> (faça login se pedir)<br>
+          2. Em "Repository access", escolha "Only select repositories" → selecione <b>MEU-SITE-</b><br>
+          3. Em "Permissions" → "Repository permissions", ache <b>Contents</b> e mude de "No access" pra <b>"Read and write"</b><br>
+          4. Role até o fim e clique em "Generate token"<br>
+          5. Copie o código gerado (começa com <code>github_pat_</code>) e cole aqui embaixo:
+        </p>
+        <input type="text" id="gh-token-input" placeholder="Cole aqui o código (github_pat_...)" style="margin-top:1rem">
+        <button class="btn-save" style="width:100%;margin-top:1rem" onclick="saveToken()">Salvar e continuar</button>
+        <div class="login-error" id="token-error">Isso não parece um código válido. Confira se copiou certinho.</div>
+        <br>
+        <button onclick="closeAdmin()" style="background:none;border:none;color:var(--muted);font-size:0.8rem;margin-top:1rem">Cancelar</button>
+      </div>
+    </div>
+
     <!-- PAINEL PRINCIPAL -->
     <div id="admin-main" style="display:none">
       <div class="admin-header">
@@ -637,8 +657,12 @@ footer { background:var(--wine-deep); padding:4rem 5vw 2rem; }
           <div class="admin-title">✦ Painel Calmi</div>
           <div style="font-size:0.75rem;color:var(--muted);margin-top:0.3rem">Gerencie seus artigos do blog sem ver código</div>
         </div>
-        <button class="admin-close" onclick="closeAdmin()">Sair do painel</button>
+        <div>
+          <button onclick="openSetup()" style="background:none;border:none;color:var(--muted);font-size:0.75rem;text-decoration:underline;margin-right:1rem;cursor:pointer">⚙️ Configurar publicação</button>
+          <button class="admin-close" onclick="closeAdmin()">Sair do painel</button>
+        </div>
       </div>
+      <div id="sync-status" style="font-size:0.8rem;margin-bottom:1rem"></div>
 
       <div class="admin-tabs">
         <button class="admin-tab active" id="tab-btn-novo" onclick="switchTab('novo')">+ Novo artigo</button>
@@ -710,18 +734,92 @@ Cuidar dos outros é lindo. Mas cuidar de si mesma é **essencial**.
 //  CONFIGURAÇÕES — altere aqui se quiser
 // ═══════════════════════════════════════════
 const ADMIN_PASS = 'calmi2025'; // Sua senha do painel
+const GH_OWNER = 'santanalogrado-arch';
+const GH_REPO  = 'MEU-SITE-';
+const GH_PATH  = 'data/posts.json';
+const GH_API   = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_PATH}`;
 
 // ═══════════════════════════════════════════
-//  POSTS (salvo no navegador)
+//  POSTS (lidos do site publicado; salvos de verdade no GitHub)
 // ═══════════════════════════════════════════
 let editingId = null;
+let cachedPosts = [];
+let cachedSha = null; // necessário pro GitHub saber que estamos editando a versão mais recente
+
+function getToken() {
+  return localStorage.getItem('calmi_gh_token') || '';
+}
+function hasToken() {
+  return !!getToken();
+}
+
+// Carrega os posts publicados de verdade (arquivo público no repositório)
+async function loadPostsFromGitHub() {
+  try {
+    const res = await fetch(`https://raw.githubusercontent.com/${GH_OWNER}/${GH_REPO}/main/${GH_PATH}?t=${Date.now()}`);
+    if (res.ok) {
+      cachedPosts = await res.json();
+    } else {
+      cachedPosts = [];
+    }
+  } catch {
+    cachedPosts = [];
+  }
+  return cachedPosts;
+}
 
 function getPosts() {
-  try { return JSON.parse(localStorage.getItem('calmi_posts') || '[]'); }
-  catch { return []; }
+  return cachedPosts;
 }
-function savePosts(arr) {
-  localStorage.setItem('calmi_posts', JSON.stringify(arr));
+
+// Salva de verdade no GitHub (cria ou atualiza o arquivo data/posts.json)
+async function savePostsToGitHub(arr) {
+  const token = getToken();
+  if (!token) { openSetup(); throw new Error('sem token'); }
+
+  // 1) pega o sha atual do arquivo (se existir), pra não sobrescrever por acidente
+  let sha = undefined;
+  try {
+    const cur = await fetch(GH_API, { headers: { 'Authorization': `Bearer ${token}` } });
+    if (cur.ok) { const j = await cur.json(); sha = j.sha; }
+  } catch {}
+
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(arr, null, 2))));
+  const body = {
+    message: 'Atualiza artigos do blog Calmi',
+    content,
+    ...(sha ? { sha } : {})
+  };
+  const res = await fetch(GH_API, {
+    method: 'PUT',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(()=>({}));
+    throw new Error(err.message || 'Falha ao publicar no GitHub');
+  }
+  cachedPosts = arr;
+}
+
+function openSetup() {
+  document.getElementById('admin-main').style.display = 'none';
+  document.getElementById('admin-login-screen').style.display = 'none';
+  document.getElementById('admin-setup-screen').style.display = 'block';
+}
+function saveToken() {
+  const v = document.getElementById('gh-token-input').value.trim();
+  if (!v.startsWith('github_pat_') && !v.startsWith('ghp_')) {
+    document.getElementById('token-error').style.display = 'block';
+    return;
+  }
+  localStorage.setItem('calmi_gh_token', v);
+  document.getElementById('admin-setup-screen').style.display = 'none';
+  document.getElementById('admin-main').style.display = 'block';
+  loadPostList();
 }
 
 // ═══════════════════════════════════════════
@@ -810,6 +908,10 @@ function closeAdmin() {
 
 function doLogin() {
   if (document.getElementById('admin-pass').value === ADMIN_PASS) {
+    if (!hasToken()) {
+      openSetup();
+      return;
+    }
     document.getElementById('admin-login-screen').style.display = 'none';
     document.getElementById('admin-main').style.display = 'block';
     loadPostList();
@@ -826,14 +928,14 @@ function switchTab(t) {
   if (t==='lista') loadPostList();
 }
 
-function savePost() {
+async function savePost() {
   const title   = document.getElementById('post-title').value.trim();
   const cat     = document.getElementById('post-cat').value;
   const excerpt = document.getElementById('post-excerpt').value.trim();
   const body    = document.getElementById('post-body').value.trim();
   if (!title || !body) { alert('Por favor preencha o título e o conteúdo do artigo 🌷'); return; }
 
-  const posts = getPosts();
+  const posts = [...getPosts()];
   const date  = new Date().toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
 
   if (editingId !== null) {
@@ -845,13 +947,24 @@ function savePost() {
     posts.push({id: Date.now(), title, cat, excerpt, body, date});
   }
 
-  savePosts(posts);
-  renderBlog();
-
-  ['post-title','post-excerpt','post-body'].forEach(id => document.getElementById(id).value = '');
-  const msg = document.getElementById('save-msg');
-  msg.style.display = 'inline';
-  setTimeout(() => msg.style.display = 'none', 3500);
+  const btn = document.getElementById('btn-salvar');
+  const originalText = btn.textContent;
+  btn.textContent = 'Publicando...';
+  btn.disabled = true;
+  try {
+    await savePostsToGitHub(posts);
+    renderBlog();
+    ['post-title','post-excerpt','post-body'].forEach(id => document.getElementById(id).value = '');
+    const msg = document.getElementById('save-msg');
+    msg.textContent = '✓ Publicado de verdade no site!';
+    msg.style.display = 'inline';
+    setTimeout(() => msg.style.display = 'none', 4500);
+  } catch (e) {
+    alert('Não consegui publicar: ' + e.message + '\n\nConfira se a chave em "⚙️ Configurar publicação" ainda é válida.');
+  } finally {
+    btn.textContent = originalText;
+    btn.disabled = false;
+  }
 }
 
 function loadPostList() {
@@ -887,11 +1000,15 @@ function editPost(id) {
   switchTab('novo');
 }
 
-function deletePost(id) {
+async function deletePost(id) {
   if (!confirm('Tem certeza que quer apagar este artigo? Essa ação não pode ser desfeita.')) return;
-  savePosts(getPosts().filter(p => p.id !== id));
-  renderBlog();
-  loadPostList();
+  try {
+    await savePostsToGitHub(getPosts().filter(p => p.id !== id));
+    renderBlog();
+    loadPostList();
+  } catch (e) {
+    alert('Não consegui apagar: ' + e.message);
+  }
 }
 
 // Editor helpers
@@ -988,7 +1105,7 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
 });
 
 // INIT
-renderBlog();
+loadPostsFromGitHub().then(renderBlog);
 </script>
 </body>
 </html>
