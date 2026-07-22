@@ -600,6 +600,7 @@ footer { background:var(--wine-deep); padding:4rem 5vw 2rem; }
 <div id="article-overlay">
   <div class="article-wrap">
     <button class="article-back" onclick="closeArticle()">&#8592; Voltar ao blog</button>
+    <button class="article-back" onclick="copyArticleLink(this)" style="margin-left:0.6rem;">Copiar link 🔗</button>
     <span class="article-tag" id="art-tag"></span>
     <h1 class="article-title" id="art-title"></h1>
     <div class="article-meta" id="art-meta"></div>
@@ -858,7 +859,10 @@ function esc(str) {
 // ═══════════════════════════════════════════
 //  ARTIGO INDIVIDUAL
 // ═══════════════════════════════════════════
-function openArticle(id) {
+const SITE_TITLE = document.title;
+const SITE_DESC = document.querySelector('meta[name="description"]').getAttribute('content');
+
+function openArticle(id, skipPush) {
   const p = getPosts().find(x => x.id === id);
   if (!p) return;
   document.getElementById('art-tag').textContent = p.cat;
@@ -868,10 +872,40 @@ function openArticle(id) {
   const ov = document.getElementById('article-overlay');
   ov.classList.add('open');
   ov.scrollTop = 0;
+
+  // Dá URL própria pro artigo (compartilhável e indexável)
+  document.title = p.title + ' — Calmi';
+  document.querySelector('meta[name="description"]').setAttribute('content', (p.excerpt || p.body).slice(0,155));
+  if (!skipPush) {
+    const url = new URL(window.location);
+    url.searchParams.set('post', id);
+    history.pushState({ postId: id }, '', url);
+  }
 }
-function closeArticle() {
+function copyArticleLink(btn) {
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    const original = btn.textContent;
+    btn.textContent = 'Link copiado! ✓';
+    setTimeout(() => { btn.textContent = original; }, 2000);
+  });
+}
+function closeArticle(skipPush) {
   document.getElementById('article-overlay').classList.remove('open');
+  document.title = SITE_TITLE;
+  document.querySelector('meta[name="description"]').setAttribute('content', SITE_DESC);
+  if (!skipPush) {
+    const url = new URL(window.location);
+    url.searchParams.delete('post');
+    history.pushState({}, '', url);
+  }
 }
+
+// Permite abrir artigo direto por link (?post=ID) e respeita o botão voltar do navegador
+window.addEventListener('popstate', (e) => {
+  const id = new URL(window.location).searchParams.get('post');
+  if (id) openArticle(Number(id), true);
+  else closeArticle(true);
+});
 
 function parseBody(text) {
   return text
@@ -1105,7 +1139,11 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
 });
 
 // INIT
-loadPostsFromGitHub().then(renderBlog);
+loadPostsFromGitHub().then(() => {
+  renderBlog();
+  const id = new URL(window.location).searchParams.get('post');
+  if (id) openArticle(Number(id), true);
+});
 </script>
 </body>
 </html>
