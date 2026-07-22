@@ -504,8 +504,15 @@ footer { background:var(--wine-deep); padding:4rem 5vw 2rem; }
       <h2>Um email que<br><em>cuida de você</em></h2>
       <p>Toda semana: uma reflexão, uma ferramenta prática e conteúdo que você vai querer guardar. Gratuito, sem spam, com respeito ao seu tempo.</p>
       <div class="nl-form">
-        <input type="email" id="nl-email" placeholder="seu@email.com" aria-label="Email">
-        <button class="btn-primary" onclick="handleNewsletter()">Quero receber</button>
+        <iframe
+          src="https://9540084c.sibforms.com/serve/MUIFAA3bL8EOLKHvTxVLSMe918HK8UZ0BTBzixDcow0lfamqX7W2x-0dEV5ySH64HkocLdjlTCUukuOjKHKU7F0wqutNjqrdFXouEJ8ALotOAOgeK2ueHU7Ph52iyo1Z0mt1AQjPvmz6Y1FU0u613ChRIT4JAwQvxiq-EvNTxhkvYv96WDu71KMt1jt9QtG7X9A_nAzQuvh7UgmgYQ=="
+          width="100%"
+          height="420"
+          frameborder="0"
+          scrolling="no"
+          style="max-width:480px; margin:0 auto; display:block; border-radius:16px;"
+          title="Newsletter Calmi">
+        </iframe>
       </div>
       <p class="nl-fine">Sem spam. Cancele quando quiser. Seus dados são seus.</p>
     </div>
@@ -1100,14 +1107,6 @@ const cookieBanner = document.getElementById('cookie');
 if(localStorage.getItem('calmi_cookie')) cookieBanner.classList.add('gone');
 document.getElementById('cookieOk').addEventListener('click',()=>{ cookieBanner.classList.add('gone'); localStorage.setItem('calmi_cookie','1'); });
 document.getElementById('cookieSkip').addEventListener('click',()=>cookieBanner.classList.add('gone'));
-
-function handleNewsletter(){
-  const email=document.getElementById('nl-email').value;
-  if(!email||!email.includes('@')){ alert('Digite um email válido 🌷'); return; }
-  const brevoUrl='https://9540084c.sibforms.com/serve/MUIFAA3bL8EOLKHvTxVLSMe918HK8UZ0BTBzixDcow0lfamqX7W2x-0dEV5ySH64HkocLdjlTCUukuOjKHKU7F0wqutNjqrdFXouEJ8ALotOAOgeK2ueHU7Ph52iyo1Z0mt1AQjPvmz6Y1FU0u613ChRIT4JAwQvxiq-EvNTxhkvYv96WDu71KMt1jt9QtG7X9A_nAzQuvh7UgmgYQ==';
-  window.open(brevoUrl+'?EMAIL='+encodeURIComponent(email), '_blank');
-  document.getElementById('nl-email').value='';
-}
 
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
   a.addEventListener('click',e=>{
