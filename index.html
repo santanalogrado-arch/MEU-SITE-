@@ -503,16 +503,76 @@ footer { background:var(--wine-deep); padding:4rem 5vw 2rem; }
       <div class="s-tag">Newsletter semanal</div>
       <h2>Um email que<br><em>cuida de você</em></h2>
       <p>Toda semana: uma reflexão, uma ferramenta prática e conteúdo que você vai querer guardar. Gratuito, sem spam, com respeito ao seu tempo.</p>
-      <div class="nl-form">
-        <iframe
-          src="https://9540084c.sibforms.com/serve/MUIFAA3bL8EOLKHvTxVLSMe918HK8UZ0BTBzixDcow0lfamqX7W2x-0dEV5ySH64HkocLdjlTCUukuOjKHKU7F0wqutNjqrdFXouEJ8ALotOAOgeK2ueHU7Ph52iyo1Z0mt1AQjPvmz6Y1FU0u613ChRIT4JAwQvxiq-EvNTxhkvYv96WDu71KMt1jt9QtG7X9A_nAzQuvh7UgmgYQ=="
-          width="100%"
-          height="420"
-          frameborder="0"
-          scrolling="no"
-          style="max-width:480px; margin:0 auto; display:block; border-radius:16px;"
-          title="Newsletter Calmi">
-        </iframe>
+      <div class="nl-form calmi-brevo-form">
+        <style>
+          .calmi-brevo-form #sib-container{background:transparent!important;border:none!important;box-shadow:none!important;width:100%;padding:0!important;}
+          .calmi-brevo-form form#sib-form{padding:0!important;}
+          .calmi-brevo-form .entry__specification{display:none!important;}
+          .calmi-brevo-form .form__entry{margin:0;}
+          .calmi-brevo-form input.input{width:100%;box-sizing:border-box;padding:0.85rem 1.4rem!important;border:1px solid rgba(212,83,126,0.3)!important;border-radius:100px!important;background:rgba(255,255,255,0.08)!important;color:#fff!important;font-family:'DM Sans',sans-serif!important;font-weight:300!important;font-size:0.88rem!important;outline:none!important;}
+          .calmi-brevo-form input.input::placeholder{color:rgba(255,255,255,0.35)!important;}
+          .calmi-brevo-form input.input:focus{border-color:var(--rose-mid)!important;}
+          .calmi-brevo-form .sib-form-block__button{width:100%;background:var(--rose)!important;border-radius:100px!important;padding:0.9rem!important;font-family:'DM Sans',sans-serif!important;font-size:0.85rem!important;letter-spacing:0.05em!important;margin-top:0.8rem!important;border:none!important;cursor:pointer;transition:background 0.3s;}
+          .calmi-brevo-form .sib-form-block__button:hover{background:#c23e6a!important;}
+          .calmi-brevo-form .entry__error{font-family:'DM Sans',sans-serif!important;font-size:0.72rem!important;margin-top:0.4rem;text-align:left;}
+        </style>
+        <!-- Begin Brevo Form -->
+        <link rel="stylesheet" href="https://sibforms.com/forms/end-form/build/sib-styles.css">
+        <div id="sib-form-container" class="sib-form-container">
+          <div id="error-message" class="sib-form-message-panel" style="display:none; font-family:Helvetica, sans-serif; font-size:16px; text-align:left; color:#661d1d; background-color:#ffeded; border-color:#ff4949; border-radius:3px; max-width:540px; margin:0 auto 1rem;">
+            <div class="sib-form-message-panel__text sib-form-message-panel__text--center">Sua assinatura não pôde ser validada.</div>
+          </div>
+          <div id="success-message" class="sib-form-message-panel" style="display:none; font-family:Helvetica, sans-serif; font-size:16px; text-align:left; color:#085229; background-color:#e7faf0; border-color:#13ce66; border-radius:3px; max-width:540px; margin:0 auto 1rem;">
+            <div class="sib-form-message-panel__text sib-form-message-panel__text--center">Você fez sua assinatura com sucesso.</div>
+          </div>
+          <div id="sib-container" class="sib-container--large sib-container--vertical">
+            <form id="sib-form" method="POST" action="https://9540084c.sibforms.com/serve/MUIFAA3bL8EOLKHvTxVLSMe918HK8UZ0BTBzixDcow0lfamqX7W2x-0dEV5ySH64HkocLdjlTCUukuOjKHKU7F0wqutNjqrdFXouEJ8ALotOAOgeK2ueHU7Ph52iyo1Z0mt1AQjPvmz6Y1FU0u613ChRIT4JAwQvxiq-EvNTxhkvYv96WDu71KMt1jt9QtG7X9A_nAzQuvh7UgmgYQ==" data-type="subscription">
+              <div style="display:flex; gap:0.8rem;">
+                <div class="sib-input sib-form-block" style="flex:1;">
+                  <div class="form__entry entry_block">
+                    <div class="form__label-row">
+                      <div class="entry__field">
+                        <input class="input" type="text" id="EMAIL" name="EMAIL" autocomplete="off" value="" placeholder="Seu melhor e-mail" data-required="true" required />
+                      </div>
+                    </div>
+                    <label class="entry__error entry__error--primary" style="display:none;"></label>
+                  </div>
+                </div>
+                <div class="sib-form-block">
+                  <button class="sib-form-block__button sib-form-block__button-with-loader" form="sib-form" type="submit">
+                    <svg class="icon clickable__icon progress-indicator__icon sib-hide-loader-icon" viewBox="0 0 512 512" style="width:14px;height:14px;">
+                      <path d="M460.116 373.846l-20.823-12.022c-5.541-3.199-7.54-10.159-4.663-15.874 30.137-59.886 28.343-131.652-5.386-189.946-33.641-58.394-94.896-95.833-161.827-99.676C261.028 55.961 256 50.751 256 44.352V20.309c0-6.904 5.808-12.337 12.703-11.982 83.556 4.306 160.163 50.864 202.11 123.677 42.063 72.696 44.079 162.316 6.031 236.832-3.14 6.148-10.75 8.461-16.728 5.01z" fill="#fff"/>
+                    </svg>
+                    QUERO RECEBER
+                  </button>
+                </div>
+              </div>
+              <input type="text" name="email_address_check" value="" class="input--hidden" style="display:none;">
+              <input type="hidden" name="locale" value="pt">
+            </form>
+          </div>
+        </div>
+        <script>
+          window.REQUIRED_CODE_ERROR_MESSAGE = 'Escolha um código de país';
+          window.LOCALE = 'pt';
+          window.EMAIL_INVALID_MESSAGE = window.SMS_INVALID_MESSAGE = "A informação fornecida não é valida. Verifique o formato do campo e tente novamente.";
+          window.REQUIRED_ERROR_MESSAGE = "Este campo não pode ser deixado em branco. ";
+          window.GENERIC_INVALID_MESSAGE = "A informação fornecida não é valida. Verifique o formato do campo e tente novamente.";
+          window.INVALID_NUMBER = "A informação fornecida não é valida. Verifique o formato do campo e tente novamente.";
+          window.INVALID_DATE = "Insira uma data válida";
+          window.REQUIRED_MULTISELECT_MESSAGE = 'Selecione pelo menos 1 opção';
+          window.translation = {
+            common: {
+              selectedList: '{quantity} lista selecionada',
+              selectedLists: '{quantity} listas selecionadas',
+              selectedOption: '{quantity} selecionado',
+              selectedOptions: '{quantity} selecionados',
+            }
+          };
+          var AUTOHIDE = Boolean(0);
+        </script>
+        <script defer src="https://sibforms.com/forms/end-form/build/main.js"></script>
+        <!-- End Brevo Form -->
       </div>
       <p class="nl-fine">Sem spam. Cancele quando quiser. Seus dados são seus.</p>
     </div>
