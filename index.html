@@ -521,14 +521,14 @@ footer { background:var(--wine-deep); padding:4rem 5vw 2rem; }
       </form>
       <p class="nl-fine">Sem spam. Cancele quando quiser. Seus dados são seus.</p>
       <script>
-      (function(){
+      window.addEventListener('DOMContentLoaded', function(){
         var form = document.getElementById('calmiNlForm');
         var iframe = document.getElementById('calmiNlTarget');
-        if(!form || !iframe) return;
+        var overlay = document.getElementById('calmiNlOverlay');
+        if(!form || !iframe || !overlay) return;
         var submitted = false;
         var fallbackTimer = null;
         var autoCloseTimer = null;
-        var overlay = document.getElementById('calmiNlOverlay');
 
         function openModal(){
           overlay.classList.add('show');
@@ -559,7 +559,7 @@ footer { background:var(--wine-deep); padding:4rem 5vw 2rem; }
         });
         iframe.addEventListener('load', showSuccess);
         overlay.addEventListener('click', function(e){ if(e.target === overlay) closeModal(); });
-      })();
+      });
       </script>
     </div>
   </div>
