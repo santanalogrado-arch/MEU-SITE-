@@ -519,7 +519,7 @@ footer { background:var(--wine-deep); padding:4rem 5vw 2rem; }
         <input type="hidden" name="locale" value="pt">
         <button type="submit" class="btn-primary" style="white-space:nowrap;">QUERO RECEBER</button>
       </form>
-      <p class="nl-fine">Sem spam. Cancele quando quiser. Seus dados são seus.</p>
+      <p id="calmiNlMsg" style="display:none;"></p>
       <script>
       window.addEventListener('DOMContentLoaded', function(){
         var form = document.getElementById('calmiNlForm');
@@ -529,7 +529,6 @@ footer { background:var(--wine-deep); padding:4rem 5vw 2rem; }
         var submitted = false;
         var fallbackTimer = null;
         var autoCloseTimer = null;
-
         function openModal(){
           overlay.classList.add('show');
           autoCloseTimer = setTimeout(closeModal, 5000);
