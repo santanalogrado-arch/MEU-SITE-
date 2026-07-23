@@ -503,9 +503,11 @@ footer { background:var(--wine-deep); padding:4rem 5vw 2rem; }
       <div class="s-tag">Newsletter semanal</div>
       <h2>Um email que<br><em>cuida de você</em></h2>
       <p>Toda semana: uma reflexão, uma ferramenta prática e conteúdo que você vai querer guardar. Gratuito, sem spam, com respeito ao seu tempo.</p>
-      <form id="calmiNlForm" class="nl-form" autocomplete="off">
+      <iframe name="calmiNlTarget" id="calmiNlTarget" style="display:none;" title="envio newsletter"></iframe>
+      <form id="calmiNlForm" class="nl-form" autocomplete="off" method="POST" target="calmiNlTarget" action="https://9540084c.sibforms.com/serve/MUIFAA3bL8EOLKHvTxVLSMe918HK8UZ0BTBzixDcow0lfamqX7W2x-0dEV5ySH64HkocLdjlTCUukuOjKHKU7F0wqutNjqrdFXouEJ8ALotOAOgeK2ueHU7Ph52iyo1Z0mt1AQjPvmz6Y1FU0u613ChRIT4JAwQvxiq-EvNTxhkvYv96WDu71KMt1jt9QtG7X9A_nAzQuvh7UgmgYQ==">
         <input type="email" id="calmiNlEmail" name="EMAIL" placeholder="Seu melhor e-mail" required>
         <input type="text" name="email_address_check" value="" style="display:none !important;" tabindex="-1" autocomplete="off">
+        <input type="hidden" name="locale" value="pt">
         <button type="submit" class="btn-primary" style="white-space:nowrap;">QUERO RECEBER</button>
       </form>
       <p id="calmiNlMsg" style="display:none; font-family:'DM Sans',sans-serif; font-size:0.78rem; color:rgba(255,255,255,0.75); margin-top:0.9rem; line-height:1.6;"></p>
@@ -514,35 +516,26 @@ footer { background:var(--wine-deep); padding:4rem 5vw 2rem; }
       (function(){
         var form = document.getElementById('calmiNlForm');
         var msg = document.getElementById('calmiNlMsg');
-        if(!form) return;
-        form.addEventListener('submit', function(e){
-          e.preventDefault();
+        var iframe = document.getElementById('calmiNlTarget');
+        if(!form || !iframe) return;
+        var submitted = false;
+        form.addEventListener('submit', function(){
           var email = document.getElementById('calmiNlEmail').value.trim();
           if(!email) return;
+          submitted = true;
           var btn = form.querySelector('button');
           btn.disabled = true;
-          var originalText = btn.textContent;
           btn.textContent = 'ENVIANDO...';
-          var fd = new FormData();
-          fd.append('EMAIL', email);
-          fd.append('email_address_check', '');
-          fd.append('locale', 'pt');
-          fetch('https://9540084c.sibforms.com/serve/MUIFAA3bL8EOLKHvTxVLSMe918HK8UZ0BTBzixDcow0lfamqX7W2x-0dEV5ySH64HkocLdjlTCUukuOjKHKU7F0wqutNjqrdFXouEJ8ALotOAOgeK2ueHU7Ph52iyo1Z0mt1AQjPvmz6Y1FU0u613ChRIT4JAwQvxiq-EvNTxhkvYv96WDu71KMt1jt9QtG7X9A_nAzQuvh7UgmgYQ==', {
-            method: 'POST',
-            mode: 'no-cors',
-            body: fd
-          }).then(function(){
-            msg.textContent = 'Prontinho! Verifique seu e-mail (inclusive a caixa de spam) e clique no link para confirmar sua inscrição.';
-            msg.style.display = 'block';
-            form.reset();
-            btn.disabled = false;
-            btn.textContent = originalText;
-          }).catch(function(){
-            msg.textContent = 'Algo deu errado. Tente novamente em instantes.';
-            msg.style.display = 'block';
-            btn.disabled = false;
-            btn.textContent = originalText;
-          });
+        });
+        iframe.addEventListener('load', function(){
+          if(!submitted) return;
+          submitted = false;
+          var btn = form.querySelector('button');
+          msg.textContent = 'Prontinho! Verifique seu e-mail (inclusive a caixa de spam) e clique no link para confirmar sua inscrição.';
+          msg.style.display = 'block';
+          form.reset();
+          btn.disabled = false;
+          btn.textContent = 'QUERO RECEBER';
         });
       })();
       </script>
